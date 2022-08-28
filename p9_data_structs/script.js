@@ -12,12 +12,12 @@ const restaurant = {
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
-  order: function (starterIndex, mainIndex) {
+  order(starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
 
   // emthod that accepts an object argument with the given keys
-  orderDelivery: function ({ starterIndex = 1, mainIndex = 1, time, address }) {
+  orderDelivery({ starterIndex = 1, mainIndex = 1, time, address }) {
     console.log(
       'order delivery function',
       starterIndex,
@@ -27,8 +27,12 @@ const restaurant = {
     );
   },
 
-  orderPasta: function (ing1, ing2, ing3) {
+  orderPasta(ing1, ing2, ing3) {
     console.log('Pasta with: ', ing1, ing2, ing3);
+  },
+
+  orderPizza(...toppings) {
+    console.log('Pizza toppings: ', toppings);
   },
 
   openingHours: {
@@ -93,7 +97,7 @@ const {
 } = restaurant;
 console.log('destructuring objects: ', restaurantName, hours, tags);
 
-const { menu = ['Salad'], starterMenu: starters = [] } = restaurant;
+let { menu = ['Salad'], starterMenu: starters = [] } = restaurant;
 console.log('destructuring objects with default values: ', menu, starters);
 
 // mutating object variables, swapping object variables, multi assignment
@@ -146,3 +150,85 @@ restaurant.orderPasta(...ingredients);
 const newRestaurant = { ...restaurant, found: 'Andrew', foundedIn: 1995 };
 newRestaurant.name = "Andrew' Place";
 console.log('New restaurant:', newRestaurant);
+
+// rest operator with arrays
+const [ab, cd, ...others] = [1, 2, 3, 4, 5];
+console.log(ab, cd, others);
+const [pizza, , risotto, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+];
+console.log(otherFood);
+
+// rest operator with objects
+const { sat, ...otherHours } = restaurant.openingHours;
+console.log(otherHours);
+
+// rest operator function. turns all parameters into an array called numbers
+const add = function (...numbers) {
+  console.log(numbers);
+};
+
+add(1, 2, 3, 4, 5);
+
+restaurant.orderPizza('pepperoni', 'bacon', 'onions');
+
+// for of loop
+menu = [...restaurant.mainMenu, ...restaurant.starterMenu];
+for (const item of menu) {
+  console.log('for of loop: ', item);
+}
+
+// for of loop with array.entries()
+// entries returns the element and the index of the element
+for (const item of menu.entries()) {
+  console.log('for of loop: ', item);
+}
+
+// for of loop with destructuring
+for (const [index, item] of menu.entries()) {
+  console.log(`${index}: ${item}`);
+}
+
+// types of objects
+/*
+Object #1: Object literal:
+    const object = {item1: 'temp', item2: 'temp2'}
+*/
+
+// looping over
+// Object.keys
+for (const day of Object.keys(restaurant.openingHours)) {
+  console.log('looping over objects:', day);
+}
+// Object.keys gets all of the keys from the given objects
+console.log('Restauraunt object keys', Object.keys(restaurant));
+
+// Object.values returns all values in an object
+console.log('Restauraunt object values', Object.values(restaurant));
+
+// loop entire object
+// Object.entries returns entire key,value pair
+const entries = Object.entries(restaurant.openingHours);
+console.log(entries);
+for (const [key, { open, close }] of entries) {
+  console.log(key, open, close);
+}
+
+// map data structure: key, value pairs
+const restMap = new Map();
+restMap.set('name', "Andrew' Italiano");
+restMap.set(1, 'F Street');
+restMap.set(2, 'Fairmont Drive');
+restMap
+  .set('categories', ['pizza', 'pasta'])
+  .set('number', '123,456,7891')
+  .set('owner', 'Bob');
+// use get to retrieve values
+console.log(restMap.get('owner'));
+// check for key
+console.log(restMap.has('owner'));
+// delete pair
+restMap.delete(2);
+// size of map
+restMap.size;
