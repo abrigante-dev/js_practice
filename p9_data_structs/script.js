@@ -232,3 +232,97 @@ console.log(restMap.has('owner'));
 restMap.delete(2);
 // size of map
 restMap.size;
+
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+// char index of a string
+console.log(airline[4]);
+// string length
+console.log(plane.length);
+// string index of char
+console.log(airline.indexOf('r'));
+// string last infex of a char
+console.log(airline.lastIndexOf('r'));
+// find word in a string
+console.log(airline.indexOf('Air'));
+
+// string slice method - index to begin the extraction from the string
+console.log(airline.slice(4)); // => gets sub string starting at the given index
+console.log(airline.slice(4, 7)); // => can also give ending index for extracted substring
+console.log(airline.slice(0, airline.indexOf(' '))); // => slice first word until there is a blank space
+console.log(airline.slice(airline.lastIndexOf(' ') + 1)); // get last word after last white space
+console.log(airline.slice(-4)); // => gets last 4 chars from the end
+
+const checkMiddleSeat = function (seat) {
+  if (seat.slice(-1) == 'B' || seat.slice(-1) == 'E') {
+    console.log('Its a middle seat');
+  } else {
+    console.log('you got lucky, not a middle seat');
+  }
+};
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+// string lowercase
+console.log(airline.toLowerCase());
+console.log(airline.toUpperCase());
+// fix string capatilizations
+let myName = 'aNdRew';
+myName = myName.toLowerCase();
+myName = myName[0].toUpperCase() + myName.slice(1);
+console.log(myName);
+
+// comparing emails
+const email = 'test@null.com';
+let loginEmail = ' test@null.com \n';
+// trim white space from string. string.trim()
+loginEmail = loginEmail.toLowerCase().trim();
+console.log(loginEmail);
+
+// replace parts of string
+// string replace
+const priceGB = '&234,456';
+const priceUS = priceGB.replace('&', '$').replace(',', '.');
+console.log(priceUS);
+
+// regular expression
+let dollars = '&123.40, &45.60, &67.89';
+// regular expression to replaces all occurances
+dollars = dollars.replace(/&/g, '$');
+console.log(dollars);
+
+// string boolean methods
+const newPlane = 'A320neo';
+// string includes
+console.log(newPlane.includes('A32'));
+// string starts with
+console.log(newPlane.startsWith('B32'));
+
+// string split method
+const st = 'a+very+nice+string';
+console.log(st.split('+')); // => splits the string into an array with + as the deliminator
+// string split into array
+const [firstName, lName] = 'Andrew Stromboli'.split(' ');
+
+// string join method
+const fullName = [firstName, lName].join(' ');
+console.log(fullName);
+
+// padding a string
+const message = 'Go to gate 23';
+// padStart
+console.log(message.padStart('25', '+').padEnd('35', '+'));
+
+// pad string function
+const maskCCard = function (number) {
+  let str = number + '';
+  str = str.slice(-4);
+  str = str.padStart(String(number).length, '*');
+  console.log(str);
+};
+maskCCard(344567765433221);
+
+// repeating string, repeat string
+const message2 = 'Gate 15 closed';
+console.log(message2.repeat(3));
