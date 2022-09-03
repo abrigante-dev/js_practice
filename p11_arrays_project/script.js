@@ -83,6 +83,20 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+const createUsername = function (accs) {
+  accs.forEach(account => {
+    account.username = account.owner.toLocaleLowerCase().split(' ');
+    account.username = account.username.map(word => word[0]).join('');
+  });
+};
+createUsername(accounts);
+
+const calcPrintBalance = function (movements) {
+  const balance = movements.reduce((accum, move) => (accum += move), 0);
+  labelBalance.textContent = `$${balance}`;
+};
+calcPrintBalance(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -92,9 +106,7 @@ const currencies = new Map([
   ['EUR', 'Euro'],
   ['GBP', 'Pound sterling'],
 ]);
-
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-
 /////////////////////////////////////////////////
 /*
 // array methods
@@ -173,7 +185,7 @@ const checkDogs = function (dogsJulia, dogsKate) {
 };
 checkDogs(dogsJulia, dogsKate);
 */
-
+/*
 // array map method => returns a new array
 const moves = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const eurToUsd = 1.1;
@@ -185,3 +197,45 @@ const movementsEUR = movementsUSD.map(function (mov) {
 console.log(moves);
 console.log(movementsUSD);
 console.log(movementsEUR);
+// map method with body of function
+const movementIndexes = moves.map((mov, i, arr) => {
+  return 'movements: ' + mov + ' index: ' + i;
+});
+console.log(movementIndexes);
+*/
+
+/*
+// filter method, filter an array
+const moves = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// will only add element to the resulting array if it returns true
+const deposits = moves.filter(function (move) {
+  return move > 0;
+});
+console.log(deposits);
+const withdrawals = moves.filter(move => move < 0);
+console.log(withdrawals);
+*/
+
+// array reduce method, reduce array
+// turn all elements of an array into one value
+const moves = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// combine all moves to get totel balance
+// reduce method uses accumilator as the var that is totaled on each element
+let balance = moves.reduce((accumilator, move, i) => (accumilator += move));
+console.log('balance:', balance);
+// reduce method expanded
+balance = moves.reduce(function (accum, move, i) {
+  console.log(`Iteration ${i}: total: ${accum}`);
+  return (accum += move);
+});
+console.log('balance:', balance);
+
+// maximum value of an array
+// array reduce, max value in array
+const maxMove = moves.reduce((accum, move) => {
+  if (move > accum) {
+    accum = move;
+  }
+  return accum;
+}, 0);
+console.log('max:', maxMove);
