@@ -70,7 +70,7 @@ const renderCountry = data => {
 // promise: used a placeholder for a future result of an async function
 // promise does not need events or callback functions
 // promises can be chained instead of nested call backs
-// consume a promise
+// consume a promise, chain promise
 const getCountryData = country => {
   // fetch request for a promise
   const request = fetch(`https://restcountries.com/v3.1/name/${country}`);
@@ -79,8 +79,20 @@ const getCountryData = country => {
     // json function to be able to read the response body
     .then(response => response.json())
     // chain .then methods because .json function returns another promise
-    .then(data => renderCountry(data[0]));
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbor = data[0].borders[0];
+
+      if (!neighbor) return;
+
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbor}`);
+    })
+    // chain promise from the second country fetch request
+    .then(response => response.json())
+    .then(data => {
+      renderCountry(data[0]);
+    });
 };
 
 getCountryData('usa');
-getCountryData('canada');
+// getCountryData('canada');
