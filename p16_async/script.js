@@ -63,6 +63,11 @@ const renderCountry = data => {
   countriesContainer.style.opacity = 1;
 };
 
+const renderError = msg => {
+  countriesContainer.insertAdjacentHTML('beforeend', msg);
+  countriesContainer.style.opacity = 1;
+};
+
 // getCountry('germany');
 // getCountry('usa');
 
@@ -77,7 +82,11 @@ const getCountryData = country => {
   // .then function for a promise
   request
     // json function to be able to read the response body
-    .then(response => response.json())
+    .then(
+      response => response.json()
+      // promise second argument is the error function
+      // err => alert(err)
+    )
     // chain .then methods because .json function returns another promise
     .then(data => {
       renderCountry(data[0]);
@@ -91,8 +100,24 @@ const getCountryData = country => {
     .then(response => response.json())
     .then(data => {
       renderCountry(data[0]);
+    })
+    // catch errors in the entire promise .then() chain
+    .catch(err => {
+      console.error('Error', err);
+      renderError('Something went wrong', err);
+    })
+    // finaly promise method. finaly is always called wether promise fails or passes
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
     });
 };
 
 getCountryData('usa');
 // getCountryData('canada');
+
+// handling rejected promises
+btn.addEventListener('click', () => {
+  getCountryData('germany');
+});
+
+getCountryData('abc');
